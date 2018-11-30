@@ -1,10 +1,9 @@
 <?php
-$myjson = fopen('data.txt', 'r');
-$myjsondata = fgets($myjson);
-fclose($myjson);
+$myjsondata = file_get_contents('data.txt');
 $mydata = json_decode($myjsondata);
 $mydate = date('d/m/Y');
 $myhour = date('H:i:s');
+$mymercure = 123 + $mydata->temperature * 2.40;
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,7 +16,7 @@ $myhour = date('H:i:s');
                 position: absolute;
                 background-color: red;
                 width: 8px;
-                height: 28px;/*3px par unité sup*/
+                height: <?php echo $mymercure ?>px;
                 bottom: 85px;
                 left: 44px;
             }
