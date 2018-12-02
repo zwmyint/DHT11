@@ -1,8 +1,10 @@
 <?php
+$myFile = 'data.txt';
+$file_last_modif = filemtime($myFile);
 $myjsondata = file_get_contents('data.txt');
 $mydata = json_decode($myjsondata);
-$mydate = date('d/m/Y');
-$myhour = date('H:i:s');
+$mydate = date('d/m/Y', $file_last_modif);
+$myhour = date('H:i:s', $file_last_modif);
 $mymercure = 123 + $mydata->temperature * 2.40;
 ?>
 <!DOCTYPE html>
