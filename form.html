@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href='' rel='stylesheet' type='text/css'>
+        <title>Exo affichage température</title>
+        <style>
+            #mercure {
+                position: absolute;
+                background-color: red;
+                width: 8px;
+                height: <?php echo $mymercure ?>px;
+                bottom: 85px;
+                left: 44px;
+            }
+            #thermo {
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Simulation de NodeMCU</h1>
+        <span>Ce formulaire permet de tester l'envoi de temperature  vers le serveur comme le ferait le NodeMCU</span>
+        <form action='store.php' method="post">
+            <label>Température :</label>
+            <input type=number name="temp">
+            <input type=number name="hum">
+            <input type="submit" value="valider">
+        </form>
+    </body>
+</html>

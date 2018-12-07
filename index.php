@@ -1,7 +1,7 @@
 <?php
 $myFile = 'data.txt';
 $file_last_modif = filemtime($myFile);
-$myjsondata = file_get_contents('data.txt');
+$myjsondata = file_get_contents($myFile);
 $mydata = json_decode($myjsondata);
 $mydate = date('d/m/Y', $file_last_modif);
 $myhour = date('H:i:s', $file_last_modif);
