@@ -34,7 +34,7 @@ if (!$data) {
 }
 file_put_contents($myFile, $new_json);
 
-if (!$new_data) {
+if (!new_json) {
     http_response_code(500);
     exit();
 }
