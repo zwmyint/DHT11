@@ -1,7 +1,7 @@
 <?php
 if (isset($_POST['temperature']) && isset($POST['humidite'])) {
-  $new_tmp = int($_POST['temperature']);
-  $new_hum = int($_POST['humidite']);
+  $new_tmp = $_POST['temperature'];
+  $new_hum = $_POST['humidite'];
   $json_data = '{"temperature":'.$new_tmp .','.'"humidite":'.$new_hum.'}';
 }
 
