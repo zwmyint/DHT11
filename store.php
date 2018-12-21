@@ -2,7 +2,7 @@
 if (isset($_POST['temperature']) && isset($POST['humidite'])) {
   $new_tmp = int($_POST['temperature']);
   $new_hum = int($_POST['humidite']);
-  $json_data = '{"temperature":"'.$new_tmp .'",'.'"humidite":"'.$new_hum.'"}';
+  $json_data = '{"temperature":'.$new_tmp .','.'"humidite":'.$new_hum.'}';
 }
 
 $myFile = 'data.txt';
