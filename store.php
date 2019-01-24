@@ -14,6 +14,7 @@ if (!$data) {
     http_response_code(400);
     exit();
 }
+
 if (!$new_json) {
     http_response_code(500);
     exit();

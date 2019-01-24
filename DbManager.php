@@ -13,7 +13,7 @@ class DbManager {
     $this->password = $password;
   }
 
-  public funtion connect() {
+  public function connect() {
     try {
       $this->db = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
       return "Connecté à ".$dbname." @ ".$host." avec succès.";
