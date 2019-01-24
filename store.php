@@ -28,7 +28,7 @@ function writeData($file, $json) {//write in file and database
   $temp = $json_data->temperature;
   $hum = $json_data->humidite;
   $date = date('\l\e Y-m-d \à H:i:s');
-  $dbManager = new DbManager($host, $db, $username, $password);
+  $dbManager = new DbManager($host, $dbname, $username, $password);
   $dbManager->connect();
   $dbManager->insertNewEntry($date, $temp, $hum);
 }
