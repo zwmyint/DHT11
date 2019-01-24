@@ -1,9 +1,6 @@
 <?php
-// if (isset($_POST['temperature']) && isset($POST['humidite'])) {
-//   $new_tmp = $_POST['temperature'];
-//   $new_hum = $_POST['humidite'];
-//   $json_data = '{"temperature":'.$new_tmp .','.'"humidite":'.$new_hum.'}';
-// }
+require_once "DbManager.php";
+require_once "pdoConfig.php";
 
 $myFile = 'data.txt';
 $new_json = file_get_contents("php://input");
@@ -17,9 +14,20 @@ if (!$data) {
     http_response_code(400);
     exit();
 }
-file_put_contents($myFile, $new_json);
-
 if (!$new_json) {
     http_response_code(500);
     exit();
+}
+
+writeData($myFile, $new_json);
+
+function writeData($file, $json) {//write in file and database
+  file_put_contents($file, $json);
+  $json_data = json_decode($json);
+  $temp = $json_data->temperature;
+  $hum = $json_data->humidity;
+  $date = date('\l\e Y-m-d \à H:i:s');
+  $dbManager = new DbManager($host, $db, $username, $password);
+  $dbManager->connect();
+  $dbManager->insertNewEntry($date, $temp, $hum);
 }
