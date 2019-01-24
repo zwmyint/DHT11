@@ -31,7 +31,7 @@ class DbManager {
       $req->execute(array(
         ':date'=>$date,
         ':temperature'=>$temp,
-        ':hum'=>$hum
+        ':humidity'=>$hum
       ));
     }
     catch (PDOException $e) {
