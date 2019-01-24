@@ -15,8 +15,8 @@ class DbManager {
 
   public function connect() {
     try {
-      $this->db = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-      return "Connecté à ".$dbname." @ ".$host." avec succès.";
+      $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
+      return "Connecté à ".$this->dbname." @ ".$this->host." avec succès.";
     }
     catch (PDOException $e) {
       die("Error while connecting to database : ".$e->getMessage());
