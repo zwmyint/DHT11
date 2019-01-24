@@ -1,6 +1,5 @@
 <?php
 require_once "DbManager.php";
-require_once "pdoConfig.php";
 
 $myFile = 'data.txt';
 $new_json = file_get_contents("php://input");
@@ -23,6 +22,7 @@ if (!$new_json) {
 writeData($myFile, $new_json);
 
 function writeData($file, $json) {//write in file and database
+  require_once "pdoConfig.php";
   file_put_contents($file, $json);
   $json_data = json_decode($json);
   $temp = $json_data->temperature;
