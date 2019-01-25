@@ -13,7 +13,7 @@ class DHT11_DbManager {
 
   public function connect() {
     try {
-      $this->db = new PDO("mysql:host=$this->host;charset=UTF-8", $this->username, $this->password);
+      $this->db = new PDO("mysql:host=$this->host;charset=utf8", $this->username, $this->password);
       return "Connecté à ".$this->host." avec succès.";
     }
     catch (PDOException $e) {
