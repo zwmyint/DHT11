@@ -28,7 +28,6 @@ $mymercure = 123 + $mydata->temperature * 2.40;
         </style>
     </head>
     <body>
-      <?= date('\l\e Y-m-d \à H:i:s'); ?>
         <h1>Température</h1>
         <p id="infoMsg">Il fait <span id="tmp"><?php echo $mydata->temperature ?></span>°C avec <span id="wet"><?php echo $mydata->humidite ?></span>% d'humidité.<br>
         Le <span id="date"><?php echo $mydate ?></span> à <span id = "hour"><?php echo $myhour ?></span></p>

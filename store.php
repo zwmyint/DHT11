@@ -1,5 +1,5 @@
 <?php
-require_once "DbManager.php";
+require_once "DHT11_DbManager.php";
 
 $myFile = 'data.txt';
 $new_json = file_get_contents("php://input");
@@ -28,7 +28,7 @@ function writeData($file, $json) {//write in file and database
   $temp = $json_data->temperature;
   $hum = $json_data->humidite;
   $date = date('\l\e Y-m-d \à H:i:s');
-  $dbManager = new DbManager($host, $username, $password);
+  $dbManager = new DHT11_DbManager($host, $username, $password);
   $dbManager->connect();
   $dbManager->insertNewEntry($date, $temp, $hum);
 }
