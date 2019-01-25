@@ -38,19 +38,20 @@ class DHT11_DbManager {
 
   public function insertNewEntry($date, $temp, $hum) {
     //$this->createDHT11Table();
-    $req =$this->db->query("
-    CREATE DATABASE  IF NOT EXISTS `DHT11_db`
-    USE `DHT11_db`;
-    CREATE TABLE `entries` (
-    `key` int(11) NOT NULL AUTO_INCREMENT,
-    `date` varchar(45) NOT NULL,
-    `temperature` smallint(6) NOT NULL,
-    `humidity` tinyint(4) NOT NULL,
-    PRIMARY KEY (`key`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+    $req =$this->db->prepare("
+    CREATE DATABASE  IF NOT EXISTS DHT11_db
+    USE DHT11_db;
+    CREATE TABLE entries (
+    key int(11) NOT NULL AUTO_INCREMENT,
+    date DATETIME() NOT NULL,
+    temperature smallint(6) NOT NULL,
+    humidity tinyint(4) NOT NULL,
+    PRIMARY KEY (key)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ");
+    $req->execute();
     $req = null;
-    
+
     $req = $this->db->prepare('
       USE DHT11_db;
       INSERT INTO entries (date, temperature, humidity)
