@@ -1,9 +1,14 @@
 <?php
 class Measure {
-  private temperature;
-  private humidity;
-  private date;
+  private $temperature;
+  private $humidity;
+  private $date;
 
+  function __construct($date, $temp, $hum) {
+    $this->temperature = $temp;
+    $this->humidity = $hum;
+    $this->date = $date;
+  }
   public function getTemperature() {
     return $this->temperature;
   }

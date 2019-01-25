@@ -1,31 +1,26 @@
 <?php
-class DHT11_DbManager {
+require_once('Measure.php');
+require_once('DHT11_DbManager.php');
+
+class MeasureManager {
+  private $dbManager;
+  private $lastEntryData;
+  private $measures;
   private $host;
   private $username;
   private $password;
-  private $db;
-  private $lastEntryData;
 
   function __construct($host, $username, $password) {
+
+    $this->dbManager = new DHT11_DbManager($host, $username, $password);
+    $this->measures = array();
     $this->host = $host;
     $this->username = $username;
     $this->password = $password;
-    $this->connect();
   }
 
-  private function connect() {
-    try {
-      $this->db = new PDO("mysql:host=$this->host;charset=utf8", $this->username, $this->password);
-      $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      return "Connecté à ".$this->host." avec succès.";
-    }
-    catch (PDOException $e) {
-      die("Error while connecting to database : ".$e->getMessage());
-    }
-  }
-
-  /*private function createDHT11Table() {
-    $req =$this->db->exec("
+  private function createDHT11Table() {
+    $req =$this->dbManager->db->exec("
     CREATE DATABASE IF NOT EXISTS `DHT11_db`
     CHARSET=utf8
     COLLATE utf8_general_ci;
@@ -41,19 +36,19 @@ class DHT11_DbManager {
     $req = null;
   }
 
-  public function insertNewEntry($date, $temp, $hum) {
+  public function insertNewEntry(Measure $measure) {
     $this->createDHT11Table();
 
-    $req = $this->db->prepare('
+    $req = $this->dbManager->db->prepare('
       USE DHT11_db;
       INSERT INTO entries (date, temperature, humidity)
       VALUES (:date, :temperature, :humidity);
     ');
     try {
       $req->execute(array(
-        ':date'=>$date,
-        ':temperature'=>$temp,
-        ':humidity'=>$hum
+        ':date'=>$measure->getDate(),
+        ':temperature'=>$measure->getTemperature(),
+        ':humidity'=>$measure->getHumidity()
       ));
     }
     catch (PDOException $e) {
@@ -62,7 +57,7 @@ class DHT11_DbManager {
   }
 
   public function getLastEntry() {
-    $req = $this->db->query("
+    $req = $this->dbManager->db->query("
       SELECT date, temperature, humidity
       FROM DHT11_db.entries ORDER BY `key` DESC LIMIT 1;
     ");
@@ -74,5 +69,5 @@ class DHT11_DbManager {
       'lastHum'=>$result['humidity']
     );
     return $this->lastEntryData;
-  }*/
+  }
 }

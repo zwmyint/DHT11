@@ -1,5 +1,6 @@
 <?php
-require_once('read.php');
+require_once('Controller/read.php');
+
 $data = readData();
 $mymercure = 123 + $data['lastTemp'] * 2.40;
 ?>
