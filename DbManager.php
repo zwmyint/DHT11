@@ -9,10 +9,9 @@ class DHT11_DbManager {
     $this->host = $host;
     $this->username = $username;
     $this->password = $password;
-    $this->connect();
   }
 
-  private function connect() {
+  public function connect() {
     try {
       $this->db = new PDO("mysql:host=$this->host;charset=UTF-8", $this->username, $this->password);
       return "Connecté à ".$this->host." avec succès.";
