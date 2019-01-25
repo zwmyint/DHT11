@@ -32,7 +32,7 @@ $mymercure = 123 + $lastEntry['lastTemp'] * 2.40;
             <p id="infoMsg">Il fait <span id="tmp"><?= $lastEntry['lastTemp']?></span>°C avec <span id="wet"><?= $lastEntry['lastHum']?></span>% d'humidité.<br>
             <span id="date"><?= $lastEntry['lastDate']?></span></p>
             <div id="thermo">
-                <img src="thermo.jpg" height=400>
+                <img src="thermo.png" height=400>
                 <div id="mercure"></div>
             </div>
           </section>
