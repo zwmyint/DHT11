@@ -33,6 +33,7 @@ class DHT11_DbManager {
     PRIMARY KEY (`key`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
     ");
+    $req = null;
   }
 
   public function insertNewEntry($date, $temp, $hum) {
