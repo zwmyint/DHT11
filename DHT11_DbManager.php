@@ -9,11 +9,13 @@ class DHT11_DbManager {
     $this->host = $host;
     $this->username = $username;
     $this->password = $password;
+    $this->connect();
   }
 
-  public function connect() {
+  private function connect() {
     try {
       $this->db = new PDO("mysql:host=$this->host;charset=utf8", $this->username, $this->password);
+      $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       return "Connecté à ".$this->host." avec succès.";
     }
     catch (PDOException $e) {
@@ -22,35 +24,24 @@ class DHT11_DbManager {
   }
 
   private function createDHT11Table() {
-    $req =$this->db->query("
-    CREATE DATABASE  IF NOT EXISTS `DHT11_db`
-    USE `DHT11_db`;
-    CREATE TABLE `entries` (
+    $req =$this->db->exec("
+    CREATE DATABASE IF NOT EXISTS `DHT11_db`
+    CHARSET=utf8
+    COLLATE utf8_general_ci;
+    USE DHT11_db;
+    CREATE TABLE IF NOT EXISTS `entries` (
     `key` int(11) NOT NULL AUTO_INCREMENT,
     `date` varchar(45) NOT NULL,
-    `temperature` smallint(6) NOT NULL,
-    `humidity` tinyint(4) NOT NULL,
+    `temperature` SMALLINT NOT NULL,
+    `humidity` tinyint NOT NULL,
     PRIMARY KEY (`key`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ");
     $req = null;
   }
 
   public function insertNewEntry($date, $temp, $hum) {
-    //$this->createDHT11Table();
-    $req =$this->db->prepare("
-    CREATE DATABASE  IF NOT EXISTS DHT11_db
-    USE DHT11_db;
-    CREATE TABLE entries (
-    key int(11) NOT NULL AUTO_INCREMENT,
-    date DATETIME() NOT NULL,
-    temperature smallint(6) NOT NULL,
-    humidity tinyint(4) NOT NULL,
-    PRIMARY KEY (key)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    ");
-    $req->execute();
-    $req = null;
+    $this->createDHT11Table();
 
     $req = $this->db->prepare('
       USE DHT11_db;
