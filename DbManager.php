@@ -1,29 +1,45 @@
 <?php
-class DbManager {
+class DHT11_DbManager {
   private $host;
-  private $dbname;
   private $username;
   private $password;
   private $db;
 
-  function __construct($host, $dbname, $username, $password) {
+  function __construct($host, $username, $password) {
     $this->host = $host;
-    $this->dbname = $dbname;
     $this->username = $username;
     $this->password = $password;
+    $this->connect();
   }
 
-  public function connect() {
+  private function connect() {
     try {
-      $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
-      return "Connecté à ".$this->dbname." @ ".$this->host." avec succès.";
+      $this->db = new PDO("mysql:host=$this->host;charset=UTF-8", $this->username, $this->password);
+      return "Connecté à ".$this->host." avec succès.";
     }
     catch (PDOException $e) {
       die("Error while connecting to database : ".$e->getMessage());
     }
   }
+
+  private function createDHT11Table() {
+    $req =$this->db->query("
+    CREATE DATABASE  IF NOT EXISTS `DHT11_db`
+    USE `DHT11_db`;
+    CREATE TABLE `entries` (
+    `key` int(11) NOT NULL AUTO_INCREMENT,
+    `date` varchar(45) NOT NULL,
+    `temperature` smallint(6) NOT NULL,
+    `humidity` tinyint(4) NOT NULL,
+    PRIMARY KEY (`key`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+    ");
+  }
+
   public function insertNewEntry($date, $temp, $hum) {
+    $this->createDHT11Table();
     $req = $this->db->prepare('
+      USE DHT11_db;
       INSERT INTO entries (date, temperature, humidity)
       VALUES (:date, :temperature, :humidity);
     ');
