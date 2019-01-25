@@ -4,6 +4,7 @@ class DHT11_DbManager {
   private $username;
   private $password;
   private $db;
+  private $lastEntryData;
 
   function __construct($host, $username, $password) {
     $this->host = $host;
@@ -58,5 +59,20 @@ class DHT11_DbManager {
     catch (PDOException $e) {
       die("Erreur: ".$e->getMessage());
     }
+  }
+
+  public function getLastEntry() {
+    $req = $this->db->query("
+      SELECT date, temperature, humidity
+      FROM DHT11_db.entries ORDER BY `key` DESC LIMIT 1;
+    ");
+    $req->setFetchMode(PDO::FETCH_ASSOC);
+    $result = $req->fetch();
+    $this->lastEntryData = array(
+      'lastDate'=>$result['date'],
+      'lastTemp'=>$result['temperature'],
+      'lastHum'=>$result['humidity']
+    );
+    return $this->lastEntryData;
   }
 }

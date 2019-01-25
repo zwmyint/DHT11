@@ -1,11 +1,7 @@
 <?php
-$myFile = 'data.txt';
-$file_last_modif = filemtime($myFile);
-$myjsondata = file_get_contents($myFile);
-$mydata = json_decode($myjsondata);
-$mydate = date('d/m/Y', $file_last_modif);
-$myhour = date('H:i:s', $file_last_modif);
-$mymercure = 123 + $mydata->temperature * 2.40;
+require_once('read.php');
+$data = readData();
+$mymercure = 123 + $data['lastTemp'] * 2.40;
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,8 +25,8 @@ $mymercure = 123 + $mydata->temperature * 2.40;
     </head>
     <body>
         <h1>Température</h1>
-        <p id="infoMsg">Il fait <span id="tmp"><?php echo $mydata->temperature ?></span>°C avec <span id="wet"><?php echo $mydata->humidite ?></span>% d'humidité.<br>
-        Le <span id="date"><?php echo $mydate ?></span> à <span id = "hour"><?php echo $myhour ?></span></p>
+        <p id="infoMsg">Il fait <span id="tmp"><?= $data['lastTemp']?></span>°C avec <span id="wet"><?= $data['lastHum']?></span>% d'humidité.<br>
+        Le <span id="date"><?= $data['lastDate']?></span></p>
         <div id="thermo">
             <img src="thermo.jpg" height=400>
             <div id="mercure"></div>
