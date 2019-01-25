@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+  font-family: arial, sans-serif;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+main {
+  display: flex;
+}
+section {
+  margin: 0 10px;
+}
+#entriesTableSection {
+  height: 200px;
+  overflow: auto;
+  border: 4px solid #ddd;
+}

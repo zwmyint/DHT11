@@ -70,4 +70,16 @@ class MeasureManager {
     );
     return $this->lastEntryData;
   }
+  public function getAllMeasures() {
+    $req = $this->dbManager->db->query('
+      SELECT `date`, `temperature`, `humidity`
+      FROM DHT11_db.entries;
+    ');
+    $req->setFetchMode(PDO::FETCH_ASSOC);
+    while ($row = $req->fetch()) {
+      $measure = new Measure($row['date'], $row['temperature'], $row['humidity']);
+      array_push($this->measures, $measure);
+    }
+    return $this->measures;
+  }
 }
