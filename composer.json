@@ -1,0 +1,12 @@
+{
+	"autoload" : {
+		"psr-4" : {
+			"DTA\\DHT11\\" : "src"
+		}
+	},
+	"name" : "DTA/DHT11",
+	"require" : {
+		"php" : ">=7.2",
+		"phpunit/phpunit" : "~7.5"
+	}
+}
