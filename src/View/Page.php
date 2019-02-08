@@ -4,11 +4,13 @@ namespace DTA\DHT11\View;
 use DTA\DHT11\Controller\MeasuresController;
 
 class Page {
-    private $template;
-    private $content;
+    private $view;
     
-    function __construct($template, $content) {
-        $this->template = $template;
-        $this->content = $content;
+    function __construct($view) {
+        $this->view = $view;
+    }
+    
+    public function display() {
+        require_once ("src/View/".$this->view."View.php");
     }
 }

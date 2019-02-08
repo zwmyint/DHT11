@@ -1,9 +1,10 @@
 <?php
 namespace DTA\DHT11\Model;
 
-require_once('inc/PdoConfig.php');
+require_once('vendor/autoload.php');
 
 use DTA\DHT11\inc\PdoConfig as PdoConfig;
+use \PDO as PDO;
 
 class DHT11_DbManager {
     private $config;
@@ -17,9 +18,9 @@ class DHT11_DbManager {
     
     private function connect() {
         try {
-            $this->db = new PDO("mysql:host=$this->config->host;charset=utf8", $this->config->username, $this->config->password);
+            $this->db = new PDO("mysql:host=".$this->config['host'].";charset=utf8", $this->config['username'], $this->config['password']);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return "Connecté à ".$this->config->host." avec succès.";
+            return "Connecté à ".$this->config['host']." avec succès.";
         }
         catch (PDOException $e) {
             die("Error while connecting to database : ".$e->getMessage());

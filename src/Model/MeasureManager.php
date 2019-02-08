@@ -1,9 +1,9 @@
 <?php
 namespace DTA\DHT11\Model;
 
-/*require_once('Measure.php');
-require_once('DHT11_DbManager.php');*/
-use DTA\DHT11\Model\Measure as Measure;
+use DTA\DHT11\Model\Measure;
+use DTA\DHT11\Model\DHT11_DbManager;
+use \PDO as PDO;
 
 class MeasureManager {
     private $dbManager;
@@ -36,10 +36,10 @@ class MeasureManager {
         $this->createDHT11Table();
         
         $req = $this->dbManager->db->prepare('
-      USE DHT11_db;
-      INSERT INTO entries (date, temperature, humidity)
-      VALUES (:date, :temperature, :humidity);
-    ');
+              USE DHT11_db;
+              INSERT INTO entries (date, temperature, humidity)
+              VALUES (:date, :temperature, :humidity);
+        ');
         try {
             $req->execute(array(
                 ':date'=>$measure->getDate(),
@@ -54,11 +54,11 @@ class MeasureManager {
     
     public function getLastMeasure() {
         $req = $this->dbManager->db->query("
-      SELECT date, temperature, humidity
-      FROM DHT11_db.entries ORDER BY `key` DESC LIMIT 1;
-    ");
+          SELECT date, temperature, humidity
+          FROM DHT11_db.entries ORDER BY `key` DESC LIMIT 1;
+        ");
         $req->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $req->fetch();)
+        $result = $req->fetch();
         $this->lastEntryData = array(
             'lastDate'=>$result['date'],
             'lastTemp'=>$result['temperature'],
@@ -68,9 +68,9 @@ class MeasureManager {
     }
     public function getAllMeasures() {
         $req = $this->dbManager->db->query('
-      SELECT `date`, `temperature`, `humidity`
-      FROM DHT11_db.entries;
-    ');
+          SELECT `date`, `temperature`, `humidity`
+          FROM DHT11_db.entries;
+        ');
         $req->setFetchMode(PDO::FETCH_ASSOC);
         while ($row = $req->fetch()) {
             $measure = new Measure($row['date'], $row['temperature'], $row['humidity']);

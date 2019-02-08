@@ -2,6 +2,7 @@
 namespace DTA\DHT11\Controller;
 
 use DTA\DHT11\Model\MeasureManager;
+use DTA\DHT11\View\Page;
 
 require_once('vendor/autoload.php');
 
@@ -15,16 +16,26 @@ class MeasureController {
     function __construct() {
         
         $this->measureManager = new MeasureManager();
-        $this->page = new Page("","");
+        $this->page = new Page('thermometer');
+    }
+    
+    public function run() {
+        $this->populatePageData();
+        $this->page->display();
     }
         
-    public function getLastEntry() {
+    private function getLastMeasure() {
         $result = $this->measureManager->getLastMeasure();
         return $result;
     }
     
-    public function getAllEntry() {
+    private function getAllMeasures() {
         $entries = $this->measureManager->getAllMeasures();
         return $entries;
+    }
+    
+    private function populatePageData() {
+        $this->page->lastMeasure = $this->getLastMeasure();
+        $this->page->allMeasures = $this->getAllMeasures();
     }
 }
