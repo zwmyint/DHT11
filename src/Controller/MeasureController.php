@@ -6,15 +6,12 @@ use DTA\DHT11\View\Page;
 
 require_once('vendor/autoload.php');
 
-/*require_once('Model/MeasureManager.php');*/
-
 class MeasureController {
     
     private $measureManager;
     private $page;
     
     function __construct() {
-        
         $this->measureManager = new MeasureManager();
         $this->page = new Page('thermometer');
     }

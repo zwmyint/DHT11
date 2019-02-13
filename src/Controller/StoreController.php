@@ -2,6 +2,7 @@
 namespace DTA\DHT11\Controller;
 
 use DTA\DHT11\Model\MeasureManager;
+use DTA\DHT11\Model\Measure;
 
 require_once('vendor/autoload.php');
 
@@ -34,8 +35,8 @@ class StoreController {
         $this->jsonData = $data;
     }
     
-    public function writeData() {
-        global $dataFile;
+    private function writeData() {
+        $dataFile = 'src/Model/data.txt';
         
         file_put_contents($dataFile, $this->jsonData);;
         $temp = $this->jsonData->temperature;
@@ -43,8 +44,12 @@ class StoreController {
         $date = date('\l\e Y-m-d \à H:i:s');
         
         $measure = new Measure($date, $temp, $hum);
-        $measureManager = new MeasureManager($host, $username, $password);
+        $measureManager = new MeasureManager();
         $measureManager->insertNewMeasure($measure);
+    }
+    
+    public function run() {
+        $this->writeData();
     }
 }
 

@@ -2,6 +2,16 @@
 $lastEntry = $this->lastMeasure;
 $allEntries = $this->allMeasures;
 $mymercure = 123 + $lastEntry['lastTemp'] * 2.40;
+
+$temperatures = [];
+$humidities = [];
+$dates = [];
+
+foreach ($allEntries as $measure) {
+    array_push($temperatures, $measure->getTemperature());
+    array_push($humidities, $measure->getHumidity());
+    array_push($dates, $measure->getDate());
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,6 +34,13 @@ $mymercure = 123 + $lastEntry['lastTemp'] * 2.40;
                 position: relative;
             }
         </style>
+        <script>
+            let temperatures = <?php echo json_encode($temperatures) ?>;
+            let humidities = <?php echo json_encode($humidities) ?>;
+            let dates = <?php echo json_encode($dates) ?>;
+        </script>
+        <script src = "https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="src/static/js/graph.js"></script>
     </head>
     <body>
         <h1>DHT11 meteo center</h1>
@@ -65,7 +82,9 @@ $mymercure = 123 + $lastEntry['lastTemp'] * 2.40;
               <?php } ?>
             </table>
           </section>
+          <section id="graphSection">
+          	<div id="chartGraph"></div>
+          </section>
         </main>
-
     </body>
 </html>
