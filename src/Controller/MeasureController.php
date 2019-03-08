@@ -10,26 +10,11 @@ require_once('vendor/autoload.php');
 class MeasureController {
     
     private $measureManager;
-    private $previsionController;
-    private $page;
-    private $rangeStartDate;
-    private $rangeEndDate;
-    private $locality;
+    public $rangeStartDate;
+    public $rangeEndDate;
     
-    function __construct($locality) {
-        $this->locality = $locality;
+    function __construct() {
         $this->measureManager = new MeasureManager();
-        $this->previsionController = new PrevisionController($this->locality);
-        $this->page = new Page('thermometer');
-    }
-    
-    public function run() {
-        $startReqTs = microtime(true);//performance measure, opt.
-        $this->populatePageData();
-        $endReqTs = microtime(true);//perf
-        $reqDelay = ($endReqTs - $startReqTs) * 1000;//perf
-        $this->page->reqDelay = $reqDelay;
-        $this->page->display();
     }
     
     public function setRange($startDate, $endDate) {
@@ -37,30 +22,14 @@ class MeasureController {
        $this->rangeEndDate = $endDate;
     }
     
-    private function populatePageData() {
-        $this->page->lastMeasure = $this->getLastMeasure();
-        //$this->page->allMeasures = $this->getAllMeasures();
-        $this->page->allMeasures = $this->getMeasuresInRange();
-        $this->page->rangeStartDate = $this->rangeStartDate;
-        $this->page->rangeEndDate = $this->rangeEndDate;
-        $this->page->avgTemp = $this->getAvgTemp();
-        //$this->page->avgTemp = $this->getAvgTempPhp();
-        $this->page->avgHum = $this->getAvgHum();
-        $this->page->maxTemp = $this->getMaxTemp();
-        $this->page->minTemp = $this->getMinTemp();
-        $this->page->maxHum = $this->getMaxHum();
-        $this->page->minHum = $this->getMinHum();
-        $this->page->previsionData = $this->previsionController->getPrevisionData();
-    }
-    
-    private function getAvgTemp() {
+    public function getAvgTemp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getAvgTemp($sDate, $eDate);
         return $result;
     }
     //alternative, average calculated with php :
-    private function getAvgTempPhp() {
+    public function getAvgTempPhp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $measures = $this->measureManager->getMeasuresInRange($this->rangeStartDate, $this->rangeEndDate);
@@ -77,58 +46,53 @@ class MeasureController {
         return 0;
     }
     
-    private function getAvgHum() {
+    public function getAvgHum() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getAvgHum($sDate, $eDate);
         return $result;
     }
     
-    private function getMaxTemp() {
+    public function getMaxTemp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMaxTemp($sDate, $eDate);
         return $result;
     }
     
-    private function getMinTemp() {
+    public function getMinTemp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMinTemp($sDate, $eDate);
         return $result;
     }
     
-    private function getMaxHum() {
+    public function getMaxHum() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMaxHum($sDate, $eDate);
         return $result;
     }
     
-    private function getMinHum() {
+    public function getMinHum() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMinHum($sDate, $eDate);
         return $result;
     }
         
-    private function getLastMeasure() {
+    public function getLastMeasure() {
         $result = $this->measureManager->getLastMeasure();
         return $result;
     }
     
-    private function getAllMeasures() {
+    public function getAllMeasures() {
         $entries = $this->measureManager->getAllMeasures();
         return $entries;
     }
-    private function getMeasuresInRange() {
+    public function getMeasuresInRange() {
         $entries = $this->measureManager->getMeasuresInRange($this->rangeStartDate, $this->rangeEndDate);
         return $entries;
-    }
-    
-    public function setLocality($locality) {
-        //$this->previsionController->setLocality($locality);
-    }
-    
+    } 
     
 }

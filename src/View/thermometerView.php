@@ -57,10 +57,10 @@ foreach ($allEntries as $measure) {
         <hr>
         <div>
         	<h2>Prévisions <?= $previsionData["locality"]; ?></h2>
-          <form method="get" action="http://51.75.126.56/DHT11/index.php">
-<!--         	<form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php"> -->
+<!--           <form method="get" action="http://51.75.126.56/DHT11/index.php"> -->
+        	<form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php">
         		<input type="text" name="locality" placeholder=<?= $previsionData["locality"]; ?>>
-        		<input type="hidden" name="c" value="measure"><input type="submit" value="send">
+        		<input type="hidden" name="c" value="dashboard"><input type="submit" value="send">
         	</form>
         	<br>
         	<table class="table table-bordered table-dark table-hover">
@@ -97,14 +97,14 @@ foreach ($allEntries as $measure) {
           </section>
           
           <section id="entriesTableSection">
-          <form method="get" action="http://51.75.126.56/DHT11/index.php">
-<!--           <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php"> -->
+<!--           <form method="get" action="http://51.75.126.56/DHT11/index.php"> -->
+          <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php">
           	<div class="form-group">
           		<label>Range start :</label>
           		<input type="date" class="form-control" name="range_start" value=<?= $rangeStartDate?> >
           		<label>Range end : </label>
           		<input type="date" class="form-control" name="range_end" value=<?= $rangeEndDate?> >
-          		<input type="hidden" name="c" value="measure">
+          		<input type="hidden" name="c" value="dashboard">
           	</div>
           	<div class="form-group">
           		<input class="btn btn-success form-control" type="submit" value="check">

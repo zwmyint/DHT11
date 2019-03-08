@@ -2,9 +2,8 @@
 namespace DTA\DHT11\Controller;
 
 require_once ('vendor/autoload.php');
-//require_once ('MeasureController.php');
 
-use DTA\DHT11\Controller\MeasureController;
+use DTA\DHT11\Controller\DashboardController;
 use DTA\DHT11\Controller\StoreController;
 
 
@@ -24,7 +23,7 @@ class Router {
         
         if (isset($_GET["c"])) {
             $controllerName = htmlspecialchars($_GET['c']);
-            if ($controllerName == "measure") {
+            if ($controllerName == "dashboard") {
 
                 if(isset($_GET["range_start"]) && isset($_GET["range_end"])) {
                     
@@ -39,23 +38,23 @@ class Router {
                     
                 }
                 
-                $this->controller = new MeasureController($locality);
-                $this->controller->setRange($dateRangeStart, $dateRangeEnd);
+                $this->controller = new DashboardController($locality);
+                $this->controller->setMeasuresRange($dateRangeStart, $dateRangeEnd);
                 
             } else if ($controllerName == "store") {
                 
                 $this->controller = new StoreController();
                 
-            } else {
+            } else {//default controller if c parameter is unknown
                 
-                $this->controller = new MeasureController($locality);
-                $this->controller->setRange($dateRangeStart, $dateRangeEnd);
+                $this->controller = new DashboardController($locality);
+                $this->controller->setMeasuresRange($dateRangeStart, $dateRangeEnd);
                 
             }
 
-        } else {
-            $this->controller = new MeasureController($locality);
-            $this->controller->setRange($dateRangeStart, $dateRangeEnd);
+        } else {//default controller if c parameter is not set
+            $this->controller = new DashboardController($locality);
+            $this->controller->setMeasuresRange($dateRangeStart, $dateRangeEnd);
             
         }
         

@@ -19,8 +19,4 @@ class PrevisionController {
         return $this->previsionManager->getPrevisionData();
     }
     
-    public function setLocality($locality) {
-        //$this->previsionManager->setLocalityData($locality);
-    }
-    
 }
