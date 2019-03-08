@@ -65,7 +65,8 @@ foreach ($allEntries as $measure) {
           </section>
           
           <section id="entriesTableSection">
-          <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php?c=store">
+          <form method="get" action="http://51.75.126.56/DHT11/index.php?c=measure">
+<!--           <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php?c=measure"> -->
           	<div class="form-group">
           		<label>Range start :</label>
           		<input type="date" class="form-control" name="range_start" value=<?= $rangeStartDate?> >
