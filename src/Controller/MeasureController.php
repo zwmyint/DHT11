@@ -70,7 +70,7 @@ class MeasureController {
             $sumTemps += $measure->getTemperature();
             $countTemps++;
         }
-        $avgTemp = $sumTemps / $countTemps;
+        if (!$countTemps == 0) $avgTemp = $sumTemps / $countTemps;
         return $avgTemp;
     }
     
