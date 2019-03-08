@@ -11,7 +11,7 @@ class PdoConfig {
     private const DATA = array(
         'host'=>'localhost',
         'username'=>'root',
-        'password'=>'Peterclash@072642',
+        'password'=>'52dLmenJspp@y!?ueiHHt',
         'dataFile'=>'/Model/data.txt'
     );
     public static function getData() {
