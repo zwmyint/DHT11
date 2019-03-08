@@ -43,8 +43,8 @@ class MeasureController {
         $this->page->allMeasures = $this->getMeasuresInRange();
         $this->page->rangeStartDate = $this->rangeStartDate;
         $this->page->rangeEndDate = $this->rangeEndDate;
-        //$this->page->avgTemp = $this->getAvgTemp();
-        $this->page->avgTemp = $this->getAvgTempPhp();
+        $this->page->avgTemp = $this->getAvgTemp();
+        //$this->page->avgTemp = $this->getAvgTempPhp();
         $this->page->avgHum = $this->getAvgHum();
         $this->page->maxTemp = $this->getMaxTemp();
         $this->page->minTemp = $this->getMinTemp();
@@ -70,8 +70,11 @@ class MeasureController {
             $sumTemps += $measure->getTemperature();
             $countTemps++;
         }
-        if (!$countTemps == 0) $avgTemp = $sumTemps / $countTemps;
-        return $avgTemp;
+        if (!$countTemps == 0) {
+            $avgTemp = $sumTemps / $countTemps;
+            return $avgTemp;
+        }
+        return 0;
     }
     
     private function getAvgHum() {
