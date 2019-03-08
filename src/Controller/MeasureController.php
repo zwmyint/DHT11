@@ -3,26 +3,31 @@ namespace DTA\DHT11\Controller;
 
 use DTA\DHT11\Model\MeasureManager;
 use DTA\DHT11\View\Page;
+use DTA\DHT11\Controller\PrevisionController;
 
 require_once('vendor/autoload.php');
 
 class MeasureController {
     
     private $measureManager;
+    private $previsionController;
     private $page;
     private $rangeStartDate;
     private $rangeEndDate;
+    private $locality;
     
-    function __construct() {
+    function __construct($locality) {
+        $this->locality = $locality;
         $this->measureManager = new MeasureManager();
+        $this->previsionController = new PrevisionController($this->locality);
         $this->page = new Page('thermometer');
     }
     
     public function run() {
-        $startReqTs = microtime(true);
+        $startReqTs = microtime(true);//performance measure, opt.
         $this->populatePageData();
-        $endReqTs = microtime(true);
-        $reqDelay = ($endReqTs - $startReqTs) * 1000;
+        $endReqTs = microtime(true);//perf
+        $reqDelay = ($endReqTs - $startReqTs) * 1000;//perf
         $this->page->reqDelay = $reqDelay;
         $this->page->display();
     }
@@ -38,13 +43,14 @@ class MeasureController {
         $this->page->allMeasures = $this->getMeasuresInRange();
         $this->page->rangeStartDate = $this->rangeStartDate;
         $this->page->rangeEndDate = $this->rangeEndDate;
-        $this->page->avgTemp = $this->getAvgTemp();
-        //$this->page->avgTemp = $this->getAvgTempPhp();
+        //$this->page->avgTemp = $this->getAvgTemp();
+        $this->page->avgTemp = $this->getAvgTempPhp();
         $this->page->avgHum = $this->getAvgHum();
         $this->page->maxTemp = $this->getMaxTemp();
         $this->page->minTemp = $this->getMinTemp();
         $this->page->maxHum = $this->getMaxHum();
         $this->page->minHum = $this->getMinHum();
+        $this->page->previsionData = $this->previsionController->getPrevisionData();
     }
     
     private function getAvgTemp() {
@@ -115,6 +121,10 @@ class MeasureController {
     private function getMeasuresInRange() {
         $entries = $this->measureManager->getMeasuresInRange($this->rangeStartDate, $this->rangeEndDate);
         return $entries;
+    }
+    
+    public function setLocality($locality) {
+        //$this->previsionController->setLocality($locality);
     }
     
     

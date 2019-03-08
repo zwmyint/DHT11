@@ -11,6 +11,8 @@ $minTemp = $this->minTemp;
 $maxHum = $this->maxHum;
 $minHum = $this->minHum;
 
+$previsionData = $this->previsionData;
+
 $temperatures = [];
 $humidities = [];
 $dates = [];
@@ -51,9 +53,37 @@ foreach ($allEntries as $measure) {
         <script src="src/static/js/graph.js"></script>
     </head>
     <body>
-    	<span>Responded in <?= $this->reqDelay ?> ms.</span>
         <h1>DHT11 meteo center</h1>
-        
+        <hr>
+        <div>
+        	<h2>Prévisions <?= $previsionData["locality"]; ?></h2>
+        	<form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php">
+        		<input type="text" name="locality" placeholder=<?= $previsionData["locality"]; ?>>
+        		<input type="hidden" name="c" value="measure"><input type="submit" value="send">
+        	</form>
+        	<br>
+        	<table class="table table-bordered table-dark table-hover">
+        		<tr>
+        			<th>Date</th>
+        			<th>Condition</th>
+        			<th>Minimum temperature</th>
+        			<th>Maximum temperature</th>
+        		</tr>
+        		<?php foreach($previsionData["days"] as $day) { ?>
+        		
+        		<tr>
+        			<td><?= $day["date"] ?></td>
+        			<td><img src=<?= $day["icon"] ?>><?= $day["condition"] ?></td>
+        			<td><?= $day["tempMin"] ?> °C</td>
+        			<td><?= $day["tempMax"] ?> °C</td>
+        		</tr>
+        		
+        		<?php } ?>
+        		
+        	</table>
+        </div>
+        <hr>
+        <h2>DHT11 station</h2>
         <main>
           <section id="thermometerSection">
             <p id="infoMsg">Il fait <span id="tmp"><?= $lastEntry['lastTemp']?></span>°C avec <span id="wet"><?= $lastEntry['lastHum']?></span>% d'humidité.<br>
@@ -62,11 +92,12 @@ foreach ($allEntries as $measure) {
                 <img src="src/static/img/thermo.png" height=400>
                 <div id="mercure"></div>
             </div>
+            
           </section>
           
           <section id="entriesTableSection">
-          <form method="get" action="http://51.75.126.56/DHT11/index.php?c=measure">
-<!--           <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php?c=measure"> -->
+<!--           <form method="get" action="http://51.75.126.56/DHT11/index.php?c=measure"> -->
+          <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php?c=measure">
           	<div class="form-group">
           		<label>Range start :</label>
           		<input type="date" class="form-control" name="range_start" value=<?= $rangeStartDate?> >

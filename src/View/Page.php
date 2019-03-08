@@ -18,6 +18,9 @@ class Page {
     
     public $reqDelay;
     
+    public $previsionIconUrls;
+    public $previsionData;
+    
     function __construct($view) {
         $this->view = $view;
     }

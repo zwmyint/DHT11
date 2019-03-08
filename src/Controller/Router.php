@@ -18,8 +18,9 @@ class Router {
     
     private function setController() {
         
-        $dateRangeStart = date('Y-m-d', strtotime("-1 month"));
+        $dateRangeStart = date('Y-m-d', strtotime("-1 month"));//default
         $dateRangeEnd = date('Y-m-d');
+        $locality = "saint-etienne-42";
         
         if (isset($_GET["c"])) {
             $controllerName = htmlspecialchars($_GET['c']);
@@ -32,7 +33,13 @@ class Router {
                     
                 }
                 
-                $this->controller = new MeasureController();
+                if (isset($_GET["locality"])) {
+                    
+                    $locality = htmlspecialchars($_GET["locality"]);
+                    
+                }
+                
+                $this->controller = new MeasureController($locality);
                 $this->controller->setRange($dateRangeStart, $dateRangeEnd);
                 
             } else if ($controllerName == "store") {
@@ -41,13 +48,13 @@ class Router {
                 
             } else {
                 
-                $this->controller = new MeasureController();
+                $this->controller = new MeasureController($locality);
                 $this->controller->setRange($dateRangeStart, $dateRangeEnd);
                 
             }
 
         } else {
-            $this->controller = new MeasureController();
+            $this->controller = new MeasureController($locality);
             $this->controller->setRange($dateRangeStart, $dateRangeEnd);
             
         }
