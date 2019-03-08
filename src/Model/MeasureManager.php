@@ -9,6 +9,7 @@ class MeasureManager {
     private $dbManager;
     private $lastEntryData;
     private $measures;
+    private $avgTemp;
     
     function __construct() { 
         $this->dbManager = new DHT11_DbManager();
@@ -77,6 +78,136 @@ class MeasureManager {
             array_push($this->measures, $measure);
         }
         return $this->measures;
+    }
+    
+    public function getMeasuresInRange($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT `date`, `temperature`, `humidity` 
+            FROM DHT11_db.entries 
+            WHERE `date` BETWEEN :startDate 
+            AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        while ($row = $req->fetch()) {
+            $measure = new Measure($row['date'], $row['temperature'], $row['humidity']);
+            array_push($this->measures, $measure);
+        }
+        return $this->measures;
+    }
+    
+    public function getAvgTemp($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT AVG(`temperature`) AS `avgTemp`
+            FROM DHT11_db.entries 
+            WHERE `date` 
+            BETWEEN :startDate AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $avg = $req->fetch() ;
+        return $avg['avgTemp'];
+        
+    }
+    
+    public function getAvgHum($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT AVG(`humidity`) AS `avgHum`
+            FROM DHT11_db.entries
+            WHERE `date`
+            BETWEEN :startDate AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $avg = $req->fetch() ;
+        return $avg['avgHum'];
+    }
+    
+    public function getMaxTemp($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT MAX(`temperature`) AS `maxTemp`
+            FROM DHT11_db.entries
+            WHERE `date`
+            BETWEEN :startDate AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $avg = $req->fetch() ;
+        return $avg['maxTemp'];
+    }
+    
+    public function getMinTemp($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT MIN(`temperature`) AS `minTemp`
+            FROM DHT11_db.entries
+            WHERE `date`
+            BETWEEN :startDate AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $avg = $req->fetch() ;
+        return $avg['minTemp'];
+    }
+    
+    public function getMaxHum($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT MAX(`humidity`) AS `maxHum`
+            FROM DHT11_db.entries
+            WHERE `date`
+            BETWEEN :startDate AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $avg = $req->fetch() ;
+        return $avg['maxHum'];
+    }
+    
+    public function getMinHum($startDate, $endDate) {
+        $sDate = "le ".$startDate." à 00:00:00";
+        $eDate = "le ".$endDate." à 00:00:00";
+        $req = $this->dbManager->db->prepare('
+            SELECT MIN(`humidity`) AS `minHum`
+            FROM DHT11_db.entries
+            WHERE `date`
+            BETWEEN :startDate AND :endDate;
+        ');
+        $req->execute(array(
+            ':startDate'=>$sDate,
+            ':endDate'=>$eDate
+        ));
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $avg = $req->fetch() ;
+        return $avg['minHum'];
     }
 }
 

@@ -5,6 +5,18 @@ use DTA\DHT11\Controller\MeasuresController;
 
 class Page {
     private $view;
+    public $allMeasures;
+    public $lastMeasures;
+    public $rangeStartDate;
+    public $rangeEndDate;
+    public $avgTemp;
+    public $avgHum;
+    public $maxTemp;
+    public $minTemp;
+    public $maxHum;
+    public $minHum;
+    
+    public $reqDelay;
     
     function __construct($view) {
         $this->view = $view;

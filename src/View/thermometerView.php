@@ -2,6 +2,14 @@
 $lastEntry = $this->lastMeasure;
 $allEntries = $this->allMeasures;
 $mymercure = 123 + $lastEntry['lastTemp'] * 2.40;
+$rangeStartDate = $this->rangeStartDate;
+$rangeEndDate = $this->rangeEndDate;
+$avgTemp = $this->avgTemp;
+$avgHum = $this->avgHum;
+$maxTemp = $this->maxTemp;
+$minTemp = $this->minTemp;
+$maxHum = $this->maxHum;
+$minHum = $this->minHum;
 
 $temperatures = [];
 $humidities = [];
@@ -43,7 +51,9 @@ foreach ($allEntries as $measure) {
         <script src="src/static/js/graph.js"></script>
     </head>
     <body>
+    	<span>Responded in <?= $this->reqDelay ?> ms.</span>
         <h1>DHT11 meteo center</h1>
+        
         <main>
           <section id="thermometerSection">
             <p id="infoMsg">Il fait <span id="tmp"><?= $lastEntry['lastTemp']?></span>°C avec <span id="wet"><?= $lastEntry['lastHum']?></span>% d'humidité.<br>
@@ -53,9 +63,21 @@ foreach ($allEntries as $measure) {
                 <div id="mercure"></div>
             </div>
           </section>
-
+          
           <section id="entriesTableSection">
-            <table>
+          <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php?c=store">
+          	<div class="form-group">
+          		<label>Range start :</label>
+          		<input type="date" class="form-control" name="range_start" value=<?= $rangeStartDate?> >
+          		<label>Range end : </label>
+          		<input type="date" class="form-control" name="range_end" value=<?= $rangeEndDate?> >
+          		<input type="hidden" name="c" value="measure">
+          	</div>
+          	<div class="form-group">
+          		<input class="btn btn-success form-control" type="submit" value="check">
+          	</div>
+          </form>
+            <table class="table table-bordered">
               <tr>
                 <th>
                   Date
@@ -80,6 +102,37 @@ foreach ($allEntries as $measure) {
                 </td>
               </tr>
               <?php } ?>
+            </table>
+            <hr>
+            <h4>Stats :</h4>
+            <em>Range: from <?= $rangeStartDate?> to <?= $rangeEndDate?> </em>
+            <br><br>
+            <table class="table table-bordered">
+            	<tr>
+            		<th colspan="3" >Temperature :</th>
+            	</tr>
+            	<tr>
+            		<th>min</th>
+            		<th>max</th>
+            		<th>average</th>
+            	</tr>
+            	<tr>
+            		<td><?= $minTemp ?> °C</td>
+            		<td><?= $maxTemp ?> °C</td>
+            		<td><?= $avgTemp ?> °C</td>
+            	</tr>
+            	
+            	<tr><th colspan="3">Humidity :</th></tr>
+            	<tr>
+            		<th>min</th>
+            		<th>max</th>
+            		<th>average</th>
+            	</tr>
+            	<tr>
+            		<td><?= $minHum ?> %</td>
+            		<td><?= $maxHum ?> %</td>
+            		<td><?= $avgHum ?> %</td>
+            	</tr>
             </table>
           </section>
           <section id="graphSection">

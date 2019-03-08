@@ -15,7 +15,7 @@ window.onload = function () {
     let chart = new CanvasJS.Chart("chartGraph", {
         animationEnabled: true,
         title:{
-            text: "NodeMCU DHT11 temperature measures"
+            text: "NodeMCU DHT11 measures"
         },
         axisX: {
             valueFormatString: "le DD-MM-YYYY à HH:mm:ss"
