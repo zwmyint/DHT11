@@ -6,7 +6,7 @@ require_once ('vendor/autoload.php');
 use DTA\DHT11\Controller\DashboardController;
 use DTA\DHT11\Controller\StoreController;
 
-
+//routes for http://ipaddress/index.php
 class Router {
     
     private $controller;

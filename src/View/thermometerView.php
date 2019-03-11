@@ -168,9 +168,23 @@ foreach ($allEntries as $measure) {
             	</tr>
             </table>
           </section>
-          <section id="graphSection">
-          	<div id="chartGraph"></div>
-          </section>
+<!--           <section id="graphSection"> -->
+<!--           	<div id="chartGraph"></div> -->
+<!--           </section> -->
+		<section id="graphSection">
+			<button class="btn btn-success" id="testAjaxBtn">TEST AJAX</button>
+            <div>
+                <h3>Test ajax</h3>
+                <label>Range start :</label>
+          		<input type="date" class="form-control" id="range_start" value=<?= $rangeStartDate?> >
+          		<label>Range end : </label>
+          		<input type="date" class="form-control" id="range_end" value=<?= $rangeEndDate?> >
+          		<input type="hidden" name="c" value="dashboard">
+                <p id="ajaxPara"></p>
+            </div>
+		</section>
+          
         </main>
     </body>
+    <script src="src/static/js/ajax.js"></script>
 </html>

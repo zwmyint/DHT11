@@ -3,7 +3,6 @@ namespace DTA\DHT11\Controller;
 
 use DTA\DHT11\Model\MeasureManager;
 use DTA\DHT11\View\Page;
-use DTA\DHT11\Controller\PrevisionController;
 
 require_once('vendor/autoload.php');
 
