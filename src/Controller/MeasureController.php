@@ -7,20 +7,20 @@ use DTA\DHT11\View\Page;
 require_once('vendor/autoload.php');
 
 class MeasureController {
-    
+
     private $measureManager;
     public $rangeStartDate;
     public $rangeEndDate;
-    
+
     function __construct() {
         $this->measureManager = new MeasureManager();
     }
-    
+
     public function setRange($startDate, $endDate) {
        $this->rangeStartDate = $startDate;
        $this->rangeEndDate = $endDate;
     }
-    
+
     public function getAvgTemp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
@@ -44,54 +44,55 @@ class MeasureController {
         }
         return 0;
     }
-    
+
     public function getAvgHum() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getAvgHum($sDate, $eDate);
         return $result;
     }
-    
+
     public function getMaxTemp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMaxTemp($sDate, $eDate);
         return $result;
     }
-    
+
     public function getMinTemp() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMinTemp($sDate, $eDate);
         return $result;
     }
-    
+
     public function getMaxHum() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMaxHum($sDate, $eDate);
         return $result;
     }
-    
+
     public function getMinHum() {
         $sDate = $this->rangeStartDate;
         $eDate = $this->rangeEndDate;
         $result = $this->measureManager->getMinHum($sDate, $eDate);
         return $result;
     }
-        
+
     public function getLastMeasure() {
         $result = $this->measureManager->getLastMeasure();
         return $result;
     }
-    
+
     public function getAllMeasures() {
         $entries = $this->measureManager->getAllMeasures();
         return $entries;
     }
+
     public function getMeasuresInRange() {
         $entries = $this->measureManager->getMeasuresInRange($this->rangeStartDate, $this->rangeEndDate);
         return $entries;
-    } 
-    
+    }
+
 }

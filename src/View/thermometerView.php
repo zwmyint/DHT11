@@ -49,8 +49,7 @@ foreach ($allEntries as $measure) {
             let humidities = <?php echo json_encode($humidities) ?>;
             let dates = <?php echo json_encode($dates) ?>;
         </script>
-        <script src = "https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-        <script src="src/static/js/graph.js"></script>
+
     </head>
     <body>
         <h1>DHT11 meteo center</h1>
@@ -71,16 +70,16 @@ foreach ($allEntries as $measure) {
         			<th>Maximum temperature</th>
         		</tr>
         		<?php foreach($previsionData["days"] as $day) { ?>
-        		
+
         		<tr>
         			<td><?= $day["date"] ?></td>
         			<td><img src=<?= $day["icon"] ?>><?= $day["condition"] ?></td>
         			<td><?= $day["tempMin"] ?> °C</td>
         			<td><?= $day["tempMax"] ?> °C</td>
         		</tr>
-        		
+
         		<?php } ?>
-        		
+
         	</table>
         </div>
         <hr>
@@ -93,49 +92,28 @@ foreach ($allEntries as $measure) {
                 <img src="src/static/img/thermo.png" height=400>
                 <div id="mercure"></div>
             </div>
-            
+
           </section>
-          
+
           <section id="entriesTableSection">
 <!--           <form method="get" action="http://51.75.126.56/DHT11/index.php"> -->
-          <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php">
-          	<div class="form-group">
-          		<label>Range start :</label>
-          		<input type="date" class="form-control" name="range_start" value=<?= $rangeStartDate?> >
-          		<label>Range end : </label>
-          		<input type="date" class="form-control" name="range_end" value=<?= $rangeEndDate?> >
-          		<input type="hidden" name="c" value="dashboard">
-          	</div>
-          	<div class="form-group">
-          		<input class="btn btn-success form-control" type="submit" value="check">
-          	</div>
-          </form>
-            <table class="table table-bordered">
+
+            <div>
+              <label>Range start :</label>
+              <input type="date" class="form-control" id="range_start" value=<?= $rangeStartDate?> >
+              <label>Range end : </label>
+              <input type="date" class="form-control" id="range_end" value=<?= $rangeEndDate?> >
+              <button class="btn btn-success" id="testAjaxBtn">Send</button>
+            </div>
+
+            <table id="ajaxMeasures" class="table table table-bordered">
               <tr>
-                <th>
-                  Date
-                </th>
-                <th>
-                  Temperature
-                </th>
-                <th>
-                  Humidity
-                </th>
+                <th>Date</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
               </tr>
-              <?php foreach ($allEntries as $entry) { ?>
-              <tr class="entryRow">
-                <td class="entryData">
-                    <?= $entry->getDate() ?>
-                </td>
-                <td class="entryData">
-                    <?= $entry->getTemperature() ?>
-                </td>
-                <td class="entryData">
-                    <?= $entry->getHumidity() ?>
-                </td>
-              </tr>
-              <?php } ?>
             </table>
+
             <hr>
             <h4>Stats :</h4>
             <em>Range: from <?= $rangeStartDate?> to <?= $rangeEndDate?> </em>
@@ -150,11 +128,11 @@ foreach ($allEntries as $measure) {
             		<th>average</th>
             	</tr>
             	<tr>
-            		<td><?= $minTemp ?> °C</td>
-            		<td><?= $maxTemp ?> °C</td>
-            		<td><?= $avgTemp ?> °C</td>
+            		<td id="minTemp"><?= $minTemp ?> °C</td>
+            		<td id="maxTemp"><?= $maxTemp ?> °C</td>
+            		<td id="avgTemp"><?= $avgTemp ?> °C</td>
             	</tr>
-            	
+
             	<tr><th colspan="3">Humidity :</th></tr>
             	<tr>
             		<th>min</th>
@@ -162,29 +140,19 @@ foreach ($allEntries as $measure) {
             		<th>average</th>
             	</tr>
             	<tr>
-            		<td><?= $minHum ?> %</td>
-            		<td><?= $maxHum ?> %</td>
-            		<td><?= $avgHum ?> %</td>
+            		<td id="minHum"><?= $minHum ?> %</td>
+            		<td id="maxHum"><?= $maxHum ?> %</td>
+            		<td id="avgHum"><?= $avgHum ?> %</td>
             	</tr>
             </table>
           </section>
-<!--           <section id="graphSection"> -->
-<!--           	<div id="chartGraph"></div> -->
-<!--           </section> -->
-		<section id="graphSection">
-			<button class="btn btn-success" id="testAjaxBtn">TEST AJAX</button>
-            <div>
-                <h3>Test ajax</h3>
-                <label>Range start :</label>
-          		<input type="date" class="form-control" id="range_start" value=<?= $rangeStartDate?> >
-          		<label>Range end : </label>
-          		<input type="date" class="form-control" id="range_end" value=<?= $rangeEndDate?> >
-          		<input type="hidden" name="c" value="dashboard">
-                <p id="ajaxPara"></p>
-            </div>
-		</section>
-          
+
+          <section id="graphSection">
+            <div id="canvasCtnr"></div>
+          </section>
+
         </main>
     </body>
     <script src="src/static/js/ajax.js"></script>
+    <script src="src/static/js/graph.js"></script>
 </html>
