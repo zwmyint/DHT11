@@ -1,5 +1,5 @@
 let ajaxBtn = document.getElementById("testAjaxBtn");
-let measures;
+let measuresData;
 
 window.onload = function() {
 	getMeasuresData();
@@ -45,7 +45,8 @@ function getMeasuresData() {
 	xhr.onreadystatechange = function(event) {
 		if (this.readyState === 4) {
 	        if (this.status === 200) {
-	        	measures = this.response.measures;
+	        	measuresData = this.response;
+						let measures = this.response.measures;
 	        	//console.log(measures);
 						let measure;
 						for (measure in measures) {
@@ -71,6 +72,8 @@ function getMeasuresData() {
 						maxHumSlot.textContent = this.response.maxHum;
 						minHumSlot.textContent = this.response.minHum;
 
+						updateGraph();
+
 	        } else {
 	            console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
 	        }
@@ -80,6 +83,4 @@ function getMeasuresData() {
 	//xhr.open("GET", "api.php/?c=measures&req=all", true);
 	xhr.open("GET", "api.php/?c=measures&req=range&rstart="+rangeStartVal+"&rend="+rangeEndVal, true);
 	xhr.send(null);
-
-	updateGraph();
 }

@@ -59,7 +59,8 @@ foreach ($allEntries as $measure) {
 <!--           <form method="get" action="http://51.75.126.56/DHT11/index.php"> -->
         	<form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php">
         		<input type="text" name="locality" placeholder=<?= $previsionData["locality"]; ?>>
-        		<input type="hidden" name="c" value="dashboard"><input type="submit" value="send">
+        		<input type="hidden" name="c" value="dashboard">
+            <input type="submit" value="send" class="btn btn-success">
         	</form>
         	<br>
         	<table class="table table-bordered table-dark table-hover">
