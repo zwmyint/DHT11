@@ -9,25 +9,25 @@ use DTA\DHT11\Controller\MeasureController;
 require_once('vendor/autoload.php');
 
 class DashboardController {
-    
+
     private $previsionController;
     private $measureController;
     private $page;
     private $rangeStartDate;
     private $rangeEndDate;
     private $locality;
-    
+
     function __construct($locality) {
-        
+
         $this->locality = $locality;
-        
+
         $this->previsionController = new PrevisionController($this->locality);
-        
+
         $this->measureController = new MeasureController();
-        
-        $this->page = new Page('thermometer');
+
+        $this->page = new Page('dashboard');
     }
-    
+
     public function run() {
         $startReqTs = microtime(true);//performance measure, opt.
         $this->populatePageData();
@@ -36,11 +36,11 @@ class DashboardController {
         $this->page->reqDelay = $reqDelay;
         $this->page->display();
     }
-    
+
     public function setMeasuresRange($startDate, $endDate) {
        $this->measureController->setRange($startDate, $endDate);
     }
-    
+
     private function populatePageData() {
         $this->page->lastMeasure = $this->measureController->getLastMeasure();
         //$this->page->allMeasures = $this->getAllMeasures();
@@ -56,5 +56,5 @@ class DashboardController {
         $this->page->minHum = $this->measureController->getMinHum();
         $this->page->previsionData = $this->previsionController->getPrevisionData();
     }
-    
+
 }

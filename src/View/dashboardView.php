@@ -23,6 +23,7 @@ foreach ($allEntries as $measure) {
     array_push($dates, $measure->getDate());
 }
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,8 +52,8 @@ foreach ($allEntries as $measure) {
         <hr>
         <div>
         	<h2>Prévisions <?= $previsionData["locality"]; ?></h2>
-          <form method="get" action="http://51.75.126.56/DHT11/index.php">
-        	<!-- <form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php"> -->
+<!--           <form method="get" action="http://51.75.126.56/DHT11/index.php"> -->
+        	<form method="get" action="http://localhost/eclipse-workspace/DHT11/index.php">
         		<input type="text" name="locality" placeholder=<?= $previsionData["locality"]; ?>>
         		<input type="hidden" name="c" value="dashboard">
             <input type="submit" value="send" class="btn btn-success">
@@ -76,7 +77,6 @@ foreach ($allEntries as $measure) {
           			<td><?= $day["tempMin"] ?> °C</td>
           			<td><?= $day["tempMax"] ?> °C</td>
           		</tr>
-
           		<?php } ?>
             </tbody>
         	</table>
