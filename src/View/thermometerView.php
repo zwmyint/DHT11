@@ -44,15 +44,10 @@ foreach ($allEntries as $measure) {
                 position: relative;
             }
         </style>
-        <script>
-            let temperatures = <?php echo json_encode($temperatures) ?>;
-            let humidities = <?php echo json_encode($humidities) ?>;
-            let dates = <?php echo json_encode($dates) ?>;
-        </script>
 
     </head>
     <body>
-        <h1>DHT11 meteo center</h1>
+        <h1>Meteo center</h1>
         <hr>
         <div>
         	<h2>Prévisions <?= $previsionData["locality"]; ?></h2>
@@ -63,32 +58,39 @@ foreach ($allEntries as $measure) {
             <input type="submit" value="send" class="btn btn-success">
         	</form>
         	<br>
-        	<table class="table table-bordered table-dark table-hover">
-        		<tr>
-        			<th>Date</th>
-        			<th>Condition</th>
-        			<th>Minimum temperature</th>
-        			<th>Maximum temperature</th>
-        		</tr>
-        		<?php foreach($previsionData["days"] as $day) { ?>
+        	<table class="table table-bordered table-striped table-light">
+            <thead class="thead-dark">
+          		<tr>
+          			<th>Date</th>
+          			<th>Condition</th>
+          			<th>Minimum temperature</th>
+          			<th>Maximum temperature</th>
+          		</tr>
+            </thead>
+              <tbody>
+          		<?php foreach($previsionData["days"] as $day) { ?>
 
-        		<tr>
-        			<td><?= $day["date"] ?></td>
-        			<td><img src=<?= $day["icon"] ?>><?= $day["condition"] ?></td>
-        			<td><?= $day["tempMin"] ?> °C</td>
-        			<td><?= $day["tempMax"] ?> °C</td>
-        		</tr>
+          		<tr>
+          			<td><?= $day["date"] ?></td>
+          			<td><img src=<?= $day["icon"] ?>><?= $day["condition"] ?></td>
+          			<td><?= $day["tempMin"] ?> °C</td>
+          			<td><?= $day["tempMax"] ?> °C</td>
+          		</tr>
 
-        		<?php } ?>
-
+          		<?php } ?>
+            </tbody>
         	</table>
         </div>
         <hr>
         <h2>DHT11 station</h2>
         <main>
           <section id="thermometerSection">
-            <p id="infoMsg">Il fait <span id="tmp"><?= $lastEntry['lastTemp']?></span>°C avec <span id="wet"><?= $lastEntry['lastHum']?></span>% d'humidité.<br>
-            <span id="date"><?= $lastEntry['lastDate']?></span></p>
+            <h4>Last measure</h4>
+            <p id="infoMsg">
+              <span id="date"><?= $lastEntry['lastDate']?></span><br />
+              <span id="tmp">Temperature : <?= $lastEntry['lastTemp']?> °C</span><br />
+              <span id="wet">Humidity : <?= $lastEntry['lastHum']?> %</span><br />
+            </p>
             <div id="thermo">
                 <img src="src/static/img/thermo.png" height=400>
                 <div id="mercure"></div>
@@ -97,54 +99,71 @@ foreach ($allEntries as $measure) {
           </section>
 
           <section id="entriesTableSection">
-<!--           <form method="get" action="http://51.75.126.56/DHT11/index.php"> -->
-
             <div>
+              <h4>Measures database</h4>
               <label>Range start :</label>
               <input type="date" class="form-control" id="range_start" value=<?= $rangeStartDate?> >
               <label>Range end : </label>
               <input type="date" class="form-control" id="range_end" value=<?= $rangeEndDate?> >
+              <br />
               <button class="btn btn-success" id="testAjaxBtn">Send</button>
             </div>
+            <hr />
+            <h5>Results:</h5>
+            <table class="table table-bordered table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Temperature</th>
+                  <th>Humidity</th>
+                </tr>
+              </thead>
+              <tbody id="ajaxMeasures">
 
-            <table id="ajaxMeasures" class="table table table-bordered">
-              <tr>
-                <th>Date</th>
-                <th>Temperature</th>
-                <th>Humidity</th>
-              </tr>
+              </tbody>
             </table>
 
             <hr>
-            <h4>Stats :</h4>
+            <h5>Stats :</h5>
             <em>Range: from <?= $rangeStartDate?> to <?= $rangeEndDate?> </em>
             <br><br>
             <table class="table table-bordered">
-            	<tr>
-            		<th colspan="3" >Temperature :</th>
-            	</tr>
-            	<tr>
-            		<th>min</th>
-            		<th>max</th>
-            		<th>average</th>
-            	</tr>
-            	<tr>
-            		<td id="minTemp"><?= $minTemp ?> °C</td>
-            		<td id="maxTemp"><?= $maxTemp ?> °C</td>
-            		<td id="avgTemp"><?= $avgTemp ?> °C</td>
-            	</tr>
-
-            	<tr><th colspan="3">Humidity :</th></tr>
-            	<tr>
-            		<th>min</th>
-            		<th>max</th>
-            		<th>average</th>
-            	</tr>
-            	<tr>
-            		<td id="minHum"><?= $minHum ?> %</td>
-            		<td id="maxHum"><?= $maxHum ?> %</td>
-            		<td id="avgHum"><?= $avgHum ?> %</td>
-            	</tr>
+              <thead class="thead-dark">
+              	<tr>
+              		<th colspan="3" >Temperature :</th>
+              	</tr>
+              </thead>
+              <thead class="thead-light">
+                <tr>
+              		<th>min</th>
+              		<th>max</th>
+              		<th>average</th>
+              	</tr>
+              </thead>
+              <tbody>
+              	<tr>
+              		<td id="minTemp"><?= $minTemp ?> °C</td>
+              		<td id="maxTemp"><?= $maxTemp ?> °C</td>
+              		<td id="avgTemp"><?= $avgTemp ?> °C</td>
+              	</tr>
+              </tbody>
+              <thead class="thead-dark">
+              	<tr><th colspan="3">Humidity :</th></tr>
+              </thead>
+              <thead class="thead-light">
+              	<tr>
+              		<th>min</th>
+              		<th>max</th>
+              		<th>average</th>
+              	</tr>
+              </thead>
+              <tbody>
+              	<tr>
+              		<td id="minHum"><?= $minHum ?> %</td>
+              		<td id="maxHum"><?= $maxHum ?> %</td>
+              		<td id="avgHum"><?= $avgHum ?> %</td>
+              	</tr>
+              </tbody>
             </table>
           </section>
 

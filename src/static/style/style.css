@@ -29,16 +29,16 @@ section {
   background-color: #fff;
 }
 #entriesTableSection {
-  height: 510px;
+  height: 600px;
   overflow: auto;
 }
 #thermometerSection {
   padding: 8px;
-  height: 510px;
+  /*height: 510px;*/
 }
 
 #graphSection {
     padding: 8px;
-    height: 510px;
+    height: 400px;
     width: 500px;
 }

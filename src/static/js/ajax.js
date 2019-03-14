@@ -22,19 +22,6 @@ function getMeasuresData() {
 
 	//regenerate list header
 	ajaxMeasures.innerHTML = "";
-	let thRow = document.createElement("tr");
-	let dateTh = document.createElement("th");
-	dateTh.textContent = "Date";
-	let tmpTh = document.createElement("th");
-	tmpTh.textContent = "Temperature";
-	let humTh = document.createElement("th");
-	humTh.textContent = "Humidity";
-
-	thRow.appendChild(dateTh);
-	thRow.appendChild(tmpTh);
-	thRow.appendChild(humTh);
-
-	ajaxMeasures.appendChild(thRow);
 
 	let rangeStartVal = document.getElementById("range_start").value;
 	let rangeEndVal = document.getElementById("range_end").value;
