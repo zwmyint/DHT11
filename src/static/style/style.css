@@ -15,19 +15,17 @@ body {
 body>h1 {
     text-align: center;
 }
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  padding: 5px;
-}
+
 main {
   display: flex;
 }
+
 section {
   margin: 0 10px;
   border: 4px solid #ddd;
   background-color: #fff;
 }
+
 #entriesTableSection {
   height: 600px;
   overflow: auto;
