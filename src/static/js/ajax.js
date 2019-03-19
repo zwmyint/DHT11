@@ -66,7 +66,7 @@ function getMeasuresData() {
 	        }
 	    }
 	};
-
+	
 	//xhr.open("GET", "api.php/?c=measures&req=all", true);
 	xhr.open("GET", "api.php/?c=measures&req=range&rstart="+rangeStartVal+"&rend="+rangeEndVal, true);
 	xhr.send(null);

@@ -17,7 +17,8 @@ class MeasureController {
 
         $this->apiIndexedGetMethods = array(
             "all" => "getAllMeasures",
-            "range" => "getMeasuresInRange"
+            "range" => "getMeasuresInRange",
+            "last" => "getLastMeasure"
         );
     }
 
@@ -32,6 +33,10 @@ class MeasureController {
 
         return $this->measureManager->getAllMeasures();
 
+    }
+
+    public function getLastMeasure() {
+        return $this->measureManager->getLastMeasure();
     }
 
     public function getMeasuresInRange() {

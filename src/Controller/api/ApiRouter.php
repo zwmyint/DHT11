@@ -6,8 +6,9 @@ require_once ('vendor/autoload.php');
 /*use DTA\DHT11\Controller\DashboardController;
 use DTA\DHT11\Controller\StoreController;*/
 use DTA\DHT11\Controller\api\MeasureController;
+use DTA\DHT11\Controller\api\PrevisionController;
 
-//routes for http://ipaddress/index.php
+//routes for http://ipaddress/api.php
 class ApiRouter {
 
     private $controller;
@@ -25,7 +26,19 @@ class ApiRouter {
 
         if(isset($_GET["c"])) {
             if($_GET["c"] === "measures") {
+
                 $this->controller = new MeasureController();
+
+            } else if ($_GET['c'] === "previsions") {
+
+              $locality = "Saint-Etienne-42";
+
+              if (isset($_GET["locality"])) {
+
+                $locality = htmlspecialchars($_GET["locality"]);
+
+              }
+              $this->controller = new PrevisionController($locality);
             }
         }
 
@@ -34,7 +47,9 @@ class ApiRouter {
         }
 
         if (isset($_GET["rstart"]) && isset($_GET["rend"])) {
+
           if ($this->controller instanceof MeasureController ) {
+            
             $this->controller->setRange($_GET["rstart"], $_GET["rend"]);
           }
         }

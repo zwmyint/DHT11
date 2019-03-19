@@ -10,12 +10,12 @@ class MeasureManager {
     private $lastEntryData;
     private $measures;
     private $avgTemp;
-    
-    function __construct() { 
+
+    function __construct() {
         $this->dbManager = new DHT11_DbManager();
         $this->measures = array();
     }
-    
+
     private function createDHT11Table() {
         $req =$this->dbManager->db->exec("
     CREATE DATABASE IF NOT EXISTS `DHT11_db`
@@ -32,10 +32,10 @@ class MeasureManager {
     ");
         $req = null;
     }
-    
+
     public function insertNewMeasure(Measure $measure) {
         $this->createDHT11Table();
-        
+
         $req = $this->dbManager->db->prepare('
               USE DHT11_db;
               INSERT INTO entries (date, temperature, humidity)
@@ -52,7 +52,7 @@ class MeasureManager {
             die("Erreur: ".$e->getMessage());
         }
     }
-    
+
     public function getLastMeasure() {
         $req = $this->dbManager->db->query("
           SELECT date, temperature, humidity
@@ -67,6 +67,7 @@ class MeasureManager {
         );
         return $this->lastEntryData;
     }
+    
     public function getAllMeasures() {
         $req = $this->dbManager->db->query('
           SELECT `date`, `temperature`, `humidity`
@@ -79,14 +80,14 @@ class MeasureManager {
         }
         return $this->measures;
     }
-    
+
     public function getMeasuresInRange($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
         $req = $this->dbManager->db->prepare('
-            SELECT `date`, `temperature`, `humidity` 
-            FROM DHT11_db.entries 
-            WHERE `date` BETWEEN :startDate 
+            SELECT `date`, `temperature`, `humidity`
+            FROM DHT11_db.entries
+            WHERE `date` BETWEEN :startDate
             AND :endDate;
         ');
         $req->execute(array(
@@ -100,14 +101,14 @@ class MeasureManager {
         }
         return $this->measures;
     }
-    
+
     public function getAvgTemp($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
         $req = $this->dbManager->db->prepare('
             SELECT AVG(`temperature`) AS `avgTemp`
-            FROM DHT11_db.entries 
-            WHERE `date` 
+            FROM DHT11_db.entries
+            WHERE `date`
             BETWEEN :startDate AND :endDate;
         ');
         $req->execute(array(
@@ -117,9 +118,9 @@ class MeasureManager {
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $avg = $req->fetch() ;
         return $avg['avgTemp'];
-        
+
     }
-    
+
     public function getAvgHum($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
@@ -137,7 +138,7 @@ class MeasureManager {
         $avg = $req->fetch() ;
         return $avg['avgHum'];
     }
-    
+
     public function getMaxTemp($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
@@ -155,7 +156,7 @@ class MeasureManager {
         $avg = $req->fetch() ;
         return $avg['maxTemp'];
     }
-    
+
     public function getMinTemp($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
@@ -173,7 +174,7 @@ class MeasureManager {
         $avg = $req->fetch() ;
         return $avg['minTemp'];
     }
-    
+
     public function getMaxHum($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
@@ -191,7 +192,7 @@ class MeasureManager {
         $avg = $req->fetch() ;
         return $avg['maxHum'];
     }
-    
+
     public function getMinHum($startDate, $endDate) {
         $sDate = "le ".$startDate." à 00:00:00";
         $eDate = "le ".$endDate." à 00:00:00";
@@ -210,4 +211,3 @@ class MeasureManager {
         return $avg['minHum'];
     }
 }
-

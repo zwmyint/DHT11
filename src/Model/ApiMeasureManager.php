@@ -22,6 +22,21 @@ class ApiMeasureManager {
         );
     }
 
+    public function getLastMeasure() {
+        $req = $this->dbManager->db->query("
+          SELECT date, temperature, humidity
+          FROM DHT11_db.entries ORDER BY `key` DESC LIMIT 1;
+        ");
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $req->fetch();
+        $this->lastEntryData = array(
+            'lastDate'=>$result['date'],
+            'lastTemp'=>$result['temperature'],
+            'lastHum'=>$result['humidity']
+        );
+        return json_encode($this->lastEntryData);
+    }
+
     public function getAllMeasures() {
         $req = $this->dbManager->db->query('
           SELECT `date`, `temperature`, `humidity`
